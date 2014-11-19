@@ -31,10 +31,10 @@ def getCookies(responce):
 
 def parseArgs():
     parser = argparse.ArgumentParser()
-    parser.add_argument("login", help="GameCenter@Mail.ru login")
-    parser.add_argument("password", help="GameCenter@Mail.ru password")
-    parser.add_argument("-a","--account", help="GameCenter@Mail.ru account id")
-    parser.add_argument("-s", "--server", help="login server address")
+    parser.add_argument("login", help="Электронная почта")
+    parser.add_argument("password", help="Пароль")
+    parser.add_argument("-a","--account", help="Номер учётки с 0 (если несколько учёток на почте)")
+#    parser.add_argument("-s", "--server", help="login server address")
     return parser.parse_args()
 
 
@@ -50,7 +50,7 @@ def main():
 	login = split[0]
 	domain = split[1]
 	password = args.password
-	server = args.server or "178.22.90.37:29000"
+#	server = args.server or "178.22.90.37:29000"
 
 
 	maildomains=['mail.ru','inbox.ru','bk.ru','list.ru']
@@ -58,7 +58,7 @@ def main():
 		params = {"Login": login, "Domain": domain, "Password": password}
 
 		resp, conn = request(
-			"http://win.mail.ru/cgi-bin/auth", params, method="POST")
+			"https://win.mail.ru/cgi-bin/auth", params, method="POST")
 		conn.close()
 
 		cookies = getCookies(resp)
@@ -99,7 +99,6 @@ def main():
 	   	headers = {'User-Agent': uagent}
 	   	resp, conn = request(url, params, headers, "POST")
 	   	xml = resp.read()
-	   	print(xml)
 	   	conn.close()
 	   	root = Xml.fromstring(xml)
 		PersId=root.attrib['PersId']
@@ -110,7 +109,6 @@ def main():
 		headers = {'User-Agent': uagent}
 		resp, conn = request(url, params, headers, "POST")
 		xml = resp.read()
-		print(xml)
 		conn.close()
 		root = Xml.fromstring(xml)
 
@@ -124,7 +122,6 @@ def main():
 		headers = {'User-Agent': uagent}
 		resp, conn = request(url, params, headers, "POST")
 		xml = resp.read()
-		print(xml)
 		conn.close()
 		
 	root = Xml.fromstring(xml)
@@ -140,7 +137,7 @@ def main():
                             "_user:" + uid2,
                             "token2:" + token])
 
-	print "Starting client with", args.server or "default", "server"
+	print "Starting elementclient.exe"
 	print commandline
 	
 	os.system(commandline)
