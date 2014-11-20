@@ -2,10 +2,12 @@ import re
 import urllib
 import httplib
 import os
+import subprocess
 import argparse
 import getpass
 import xml.etree.ElementTree as Xml
 from urlparse import urlparse
+from sys import platform as _platform
 
 
 def request(url, param="", headers={}, method="GET"):
@@ -32,9 +34,9 @@ def getCookies(responce):
 
 def parseArgs():
     parser = argparse.ArgumentParser()
-    parser.add_argument("login", nargs='?', default="", help="Электронная почта")
-    parser.add_argument("password", nargs='?', default="", help="Пароль")
-    parser.add_argument("-a","--account", help="Номер учётки с 0 (если несколько учёток на почте)")
+    parser.add_argument("login", nargs='?', default="", help="email")
+    parser.add_argument("password", nargs='?', default="", help="password")
+    parser.add_argument("-a","--account", help="account number from 0 (if your mulptiple accounts in email)")
 #    parser.add_argument("-s", "--server", help="login server address")
     return parser.parse_args()
 
@@ -137,14 +139,19 @@ def main():
 	uid = Pers.attrib['Id']
 	
 
-	commandline = ' '.join(["start", "elementclient.exe", "console:1", "startbypatcher",
+	if _platform == "linux" or _platform == "linux2":
+		startcmd="wine"
+	else:
+		startcmd="start"
+	
+	command=[startcmd, "elementclient.exe", "console:1", "startbypatcher",
                             "user:" + uid,
                             "_user:" + uid2,
-                            "token2:" + token])
+                            "token2:" + token]
 
 	print "Starting elementclient.exe"
 
-	os.system(commandline)
+	subprocess.Popen(command)
 
 if __name__ == '__main__':
     try:
