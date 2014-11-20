@@ -43,9 +43,9 @@ def main():
 	args = parseArgs()
 	uagent='Downloader/4260'
 	while args.login == '' or args.password == '':
-	print 'Few important arguments is missing. Specify e-mail and password'
-	args.login = raw_input('e-mail:')
-	args.password = getpass.getpass('password:')
+		print 'Few important arguments is missing. Specify e-mail and password'
+		args.login = raw_input('e-mail:')
+		args.password = getpass.getpass('password:')
 	split = args.login.split("@")
 	if len(split) < 2:
 	    raise Exception("Bad email '{0}'".format(args.login))
