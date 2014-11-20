@@ -3,6 +3,7 @@ import urllib
 import httplib
 import os
 import argparse
+import getpass
 import xml.etree.ElementTree as Xml
 from urlparse import urlparse
 
@@ -31,8 +32,8 @@ def getCookies(responce):
 
 def parseArgs():
     parser = argparse.ArgumentParser()
-    parser.add_argument("login", help="Электронная почта")
-    parser.add_argument("password", help="Пароль")
+    parser.add_argument("login", nargs='?', default="", help="Электронная почта")
+    parser.add_argument("password", nargs='?', default="", help="Пароль")
     parser.add_argument("-a","--account", help="Номер учётки с 0 (если несколько учёток на почте)")
 #    parser.add_argument("-s", "--server", help="login server address")
     return parser.parse_args()
@@ -41,6 +42,10 @@ def parseArgs():
 def main():
 	args = parseArgs()
 	uagent='Downloader/4260'
+	while args.login == '' or args.password == '':
+	print 'Few important arguments is missing. Specify e-mail and password'
+	args.login = raw_input('e-mail:')
+	args.password = getpass.getpass('password:')
 	split = args.login.split("@")
 	if len(split) < 2:
 	    raise Exception("Bad email '{0}'".format(args.login))
@@ -138,8 +143,7 @@ def main():
                             "token2:" + token])
 
 	print "Starting elementclient.exe"
-	print commandline
-	
+
 	os.system(commandline)
 
 if __name__ == '__main__':
