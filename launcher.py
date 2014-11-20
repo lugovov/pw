@@ -92,7 +92,7 @@ def main():
 		login = split[0]
 		domain = split[1]
 		password = args.password
-		server = args.server or "178.22.90.37:29000"
+#		server = args.server or "178.22.90.37:29000"
 		url = 'https://authdl.mail.ru/sz.php?hint=Auth'
 		params = '<?xml version="1.0" encoding="UTF-8"?>' + \
 		'<Auth ProjectId="61" SubProjectId="0" ShardId="0" Username="{0}" Password="{1}"/>'.format(args.login,args.password)
@@ -132,7 +132,7 @@ def main():
 	uid = Pers.attrib['Id']
 	
 
-	commandline = ' '.join(["start", "elementclient.exe", "game:cpw", "startbypatcher",
+	commandline = ' '.join(["start", "elementclient.exe", "console:1", "startbypatcher",
                             "user:" + uid,
                             "_user:" + uid2,
                             "token2:" + token])
