@@ -139,15 +139,13 @@ def main():
 	uid = Pers.attrib['Id']
 	
 
-	if _platform == "linux" or _platform == "linux2":
-		startcmd="wine"
-	else:
-		startcmd="start"
-	
-	command=[startcmd, "elementclient.exe", "console:1", "startbypatcher",
+	command=["elementclient.exe", "console:1", "startbypatcher",
                             "user:" + uid,
                             "_user:" + uid2,
                             "token2:" + token]
+
+	if _platform == "linux" or _platform == "linux2":
+		command.insert(0,"wine")
 
 	print "Starting elementclient.exe"
 
