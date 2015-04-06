@@ -65,7 +65,7 @@ def main():
 		params = {"Login": login, "Domain": domain, "Password": password}
 
 		resp, conn = request(
-			"https://win.mail.ru/cgi-bin/auth", params, method="POST")
+			"https://auth.mail.ru/cgi-bin/auth", params, method="POST")
 		conn.close()
 
 		cookies = getCookies(resp)
