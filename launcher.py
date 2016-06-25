@@ -28,7 +28,7 @@ def getCookies(responce):
     temp = re.split(",(?= \w+[\w\d]*=)", cookies)
     for cookie in temp:
         slices = re.split('=|; ', cookie)
-        result.update({slices[0]: slices[1]})
+        result.update({slices[0].strip(): slices[1]})
     return result
 
 
