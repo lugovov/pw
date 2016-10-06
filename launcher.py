@@ -8,7 +8,6 @@ import getpass
 import xml.etree.ElementTree as Xml
 from urlparse import urlparse
 from sys import platform as _platform
-
 uagent='Downloader/12340'
 
 def request(url, param="", headers={}, method="GET"):
@@ -125,27 +124,37 @@ def auth(fulllogin,password,account = 0):
 	resp, conn = request(url, params, headers, "POST")
 	xml = resp.read()
 	conn.close()
-
-		
     root = Xml.fromstring(xml)
     allPers=root.findall('./Pers')
-    if len(allPers)<= int(args.account or "0"):
-	raise Exception("Accounts in email too small")
-    Pers = allPers[int(args.account or "0")]
+    if len(allPers)<= int(account or "0"):
+        raise Exception("Accounts in email too small")
+    Pers = allPers[int(account or "0")]
     uid = Pers.attrib['Id']
-    
 
-    command=["elementclient.exe", "console:1", "startbypatcher",
-                            "user:" + uid,
-                            "_user:" + uid2,
-                            "token2:" + token]
+    result={"uid":uid, "uid2":uid2, "token":token}
+    return result
 
+def main():
+    args = parseArgs()
+    while args.login == '' or args.password == '':
+	print 'Few important arguments is missing. Specify e-mail and password'
+	args.login = raw_input('e-mail:')
+	args.password = getpass.getpass('password:')
+    if not os.path.isfile('elementclient.exe'):
+        raise Exception("elementclient.exe not found")
+
+    authdata=auth(args.login,args.password, args.account)
+#    print authdata
     if _platform == "linux" or _platform == "linux2":
-		command.insert(0,"wine")
+	startcmd="wine"
+    else:
+	startcmd="start"
+    command=[startcmd, "elementclient.exe", "console:1", "startbypatcher",
+                            "user:" + authdata['uid'],
+                            "_user:" + authdata['uid2'],
+                            "token2:" + authdata['token']]
 
     print "Starting elementclient.exe"
-
-    subprocess.Popen(command)
 
 if __name__ == '__main__':
     try:
