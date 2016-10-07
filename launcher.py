@@ -120,7 +120,7 @@ def auth(fulllogin,password,account = 0):
 
 	url = 'https://{0}/sz.php?hint=PersList'.format(host)
 	params = '<?xml version="1.0" encoding="UTF-8"?>' + \
-             '<PersList {2}Username="{0}" Password="{1}"{3}/>'.format(fulllogin,password,begin,end)
+             '<PersList {2}Username="{0}" Password="{1}"/>'.format(fulllogin,password,begin,end)
 	resp, conn = request(url, params, headers, "POST")
 	xml = resp.read()
 	conn.close()
