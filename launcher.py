@@ -155,6 +155,7 @@ def main():
                             "token2:" + authdata['token']]
 
     print "Starting elementclient.exe"
+    subprocess.Popen(command)
 
 if __name__ == '__main__':
     try:
