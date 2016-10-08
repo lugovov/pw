@@ -5,6 +5,7 @@ import os
 import subprocess
 import argparse
 import getpass
+import random
 import xml.etree.ElementTree as Xml
 from urlparse import urlparse
 from sys import platform as _platform
@@ -46,6 +47,14 @@ def parseArgs():
     parser.add_argument("password", nargs='?', default="", help="password")
     parser.add_argument("-a","--account", help="account number from 0 (if your mulptiple accounts in email)")
     return parser.parse_args()
+def getRand(size):
+    random.seed()
+    i=0;
+    result=''
+    while i<size:
+        result=result+str(random.randint(0,9))
+        i=i+1;
+    return result
 
 def auth(fulllogin,password,account = 0):
     split = fulllogin.split("@")
@@ -96,8 +105,8 @@ def auth(fulllogin,password,account = 0):
     else:
 	host='authdl.mail.ru';
 	url = 'https://{0}/sz.php?hint=Auth'.format(host)
-	begin='ProjectId="61" SubProjectId="0" ShardId="0" UserId="1" UserId2="2" '
-	end=' FirstLink="0"'
+	begin='ProjectId="61" SubProjectId="0" ShardId="0" UserId="{0}" UserId2="{1}" '.fromat(getRand(18),getRand(20))
+	end=' FirstLink="{0}"'.format(getRand(7))
 	params = '<?xml version="1.0" encoding="UTF-8"?>' + \
 	'<Auth {2}Username="{0}" Password="{1}"{3}/>'.format(fulllogin,password,begin,end)
         headers = {}
