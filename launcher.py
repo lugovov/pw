@@ -105,7 +105,7 @@ def auth(fulllogin,password,account = 0):
     else:
 	host='authdl.mail.ru';
 	url = 'https://{0}/sz.php?hint=Auth'.format(host)
-	begin='ProjectId="61" SubProjectId="0" ShardId="0" UserId="{0}" UserId2="{1}" '.fromat(getRand(18),getRand(20))
+	begin='ProjectId="61" SubProjectId="0" ShardId="0" UserId="{0}" UserId2="{1}" '.format(getRand(18),getRand(20))
 	end=' FirstLink="{0}"'.format(getRand(7))
 	params = '<?xml version="1.0" encoding="UTF-8"?>' + \
 	'<Auth {2}Username="{0}" Password="{1}"{3}/>'.format(fulllogin,password,begin,end)
